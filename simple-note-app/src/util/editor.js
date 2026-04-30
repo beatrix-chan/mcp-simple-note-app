@@ -40,6 +40,14 @@ window.appUtils.editor = (function () {
 		return textarea ? textarea.value : '';
 	}
 
+	function setValue(value) {
+		if (!textarea) return;
+		textarea.value = value;
+		lastValue = value;
+		undoStack = [];
+		redoStack = [];
+	}
+
 	function clear() {
 		if (!textarea) return;
 		textarea.value = '';
@@ -48,5 +56,5 @@ window.appUtils.editor = (function () {
 		redoStack = [];
 	}
 
-	return { init, undo, redo, getValue, clear };
+	return { init, undo, redo, getValue, setValue, clear };
 })();

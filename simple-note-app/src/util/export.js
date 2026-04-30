@@ -4,5 +4,9 @@ window.appUtils.export = (function () {
 		return window.api.saveFile(content, 'note.txt');
 	}
 
-	return { save };
+	async function open() {
+		return window.api.openFile();
+	}
+
+	return { save, open };
 })();

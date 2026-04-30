@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const btnUndo = document.getElementById('btn-undo');
 	const btnRedo = document.getElementById('btn-redo');
 
-	btnSave?.addEventListener('click', async () => {
+	const handleSave = async () => {
 		try {
 			const content = window.appUtils.editor.getValue();
 			const res = await window.appUtils.export.save(content);
@@ -43,10 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
 				createToast('error', 'Error', 'Save cancelled', 5000);
 			}
 		} catch (err) {
-			console.error(err);
-			createToast('error', 'Error', `Save failed (check console)`, 7000);
+			console.error('save error details:', err);
+			createToast('error', 'Error', 'Save failed (check console)', 7000);
 		}
-	});
+	};
+
+	const handleOpen = async () => {
+		try {
+			const res = await window.appUtils.export.open();
+			if (res && !res.canceled && typeof res.content === 'string') {
+				window.appUtils.editor.setValue(res.content);
+				createToast('success', 'Success', 'File opened successfully.', 5000);
+			}
+		} catch (err) {
+			const brief = (err && err.message ? err.message : 'Unable to open file').split('\n')[0];
+			console.error('open error details:', err);
+			createToast('error', 'Error', `${brief} (check console)`, 7000);
+		}
+	};
+
+	btnSave?.addEventListener('click', handleSave);
 
 	btnTheme?.addEventListener('click', () => {
 		try {
@@ -59,12 +75,29 @@ document.addEventListener('DOMContentLoaded', () => {
 	btnUndo?.addEventListener('click', () => window.appUtils.editor.undo());
 	btnRedo?.addEventListener('click', () => window.appUtils.editor.redo());
 
-	// Keyboard shortcut: Ctrl/Cmd + S
+	if (window.api?.onMenuSaveFile) {
+		window.api.onMenuSaveFile(() => {
+			handleSave();
+		});
+	}
+
+	if (window.api?.onMenuOpenFile) {
+		window.api.onMenuOpenFile(() => {
+			handleOpen();
+		});
+	}
+
+	// Keyboard shortcuts: Ctrl/Cmd + S, Ctrl/Cmd + O
 	window.addEventListener('keydown', (e) => {
 		const isSave = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's';
+		const isOpen = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'o';
 		if (isSave) {
 			e.preventDefault();
-			btnSave?.click();
+			handleSave();
+		}
+		if (isOpen) {
+			e.preventDefault();
+			handleOpen();
 		}
 	});
 });

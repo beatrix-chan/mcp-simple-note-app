@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 
@@ -21,6 +21,31 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
+
+  const menuTemplate = [
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'Save File',
+          accelerator: process.platform === 'darwin' ? 'Command+S' : 'Ctrl+S',
+          click: () => {
+            mainWindow.webContents.send('menu-save-file');
+          },
+        },
+        {
+          label: 'Open File',
+          accelerator: process.platform === 'darwin' ? 'Command+O' : 'Ctrl+O',
+          click: () => {
+            mainWindow.webContents.send('menu-open-file');
+          },
+        },
+      ],
+    },
+  ];
+
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();

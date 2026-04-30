@@ -81,6 +81,7 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+  console.log("Welcome to the Simple Note App! 📝")
 };
 
 // This method will be called when Electron has finished
@@ -103,6 +104,7 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    console.log("Bye bye!")
     app.quit();
   }
 });

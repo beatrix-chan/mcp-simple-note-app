@@ -42,6 +42,38 @@ const createWindow = () => {
         },
       ],
     },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo', accelerator: process.platform === 'darwin' ? 'Command+Z' : 'Ctrl+Z' },
+        { role: 'redo', accelerator: process.platform === 'darwin' ? 'Shift+Command+Z' : 'Ctrl+Y' },
+        { type: 'separator' },
+        { role: 'copy', accelerator: process.platform === 'darwin' ? 'Command+C' : 'Ctrl+C' },
+        { role: 'cut', accelerator: process.platform === 'darwin' ? 'Command+X' : 'Ctrl+X' },
+        { role: 'paste', accelerator: process.platform === 'darwin' ? 'Command+V' : 'Ctrl+V' },
+        { role: 'delete' },
+        { role: 'selectAll', accelerator: process.platform === 'darwin' ? 'Command+A' : 'Ctrl+A' },
+      ],
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload', accelerator: process.platform === 'darwin' ? 'Command+R' : 'Ctrl+R' },
+        {
+          label: 'Force Reload',
+          accelerator: process.platform === 'darwin' ? 'Command+Shift+R' : 'Ctrl+Shift+R',
+          click: () => {
+            mainWindow.webContents.reloadIgnoringCache();
+          },
+        },
+        { type: 'separator' },
+        { role: 'zoomIn', accelerator: process.platform === 'darwin' ? 'Command+Plus' : 'Ctrl+Plus' },
+        { role: 'zoomOut', accelerator: process.platform === 'darwin' ? 'Command+-' : 'Ctrl+-' },
+        { role: 'resetZoom', accelerator: process.platform === 'darwin' ? 'Command+0' : 'Ctrl+0' },
+        { type: 'separator' },
+        { role: 'toggleDevTools', accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I' },
+      ],
+    },
   ];
 
   const menu = Menu.buildFromTemplate(menuTemplate);

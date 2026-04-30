@@ -3,15 +3,39 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Hello World!</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data:;">
+  <title>Simple Note App</title>
   <link rel="stylesheet" href="index.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
 </head>
 
 <body>
-  <h1>💖 Hello World!</h1>
-  <p>Welcome to your Electron application.</p>
+  <div id="app">
+    <header id="toolbar">
+      <div class="left">
+        <button id="btn-undo" class="button" title="Undo"><i class="fa-solid fa-undo"></i></button>
+        <button id="btn-redo" class="button" title="Redo"><i class="fa-solid fa-redo"></i></button>
+      </div>
+      <div class="center">Simple Note</div>
+      <div class="right">
+        <button id="btn-save" class="button" title="Save (Ctrl+S)"><i class="fa-solid fa-save"></i></button>
+        <button id="btn-theme" class="button" title="Toggle theme"><i
+            class="fa-solid fa-circle-half-stroke"></i></button>
+      </div>
+    </header>
+
+    <main>
+      <textarea id="editor" placeholder="Start typing..."></textarea>
+    </main>
+
+    <div id="toasts" aria-live="polite" aria-atomic="true"></div>
+  </div>
+
+  <script src="util/theme.js"></script>
+  <script src="util/editor.js"></script>
+  <script src="util/export.js"></script>
+  <script type="module" src="renderer.js"></script>
 </body>
 
 </html>

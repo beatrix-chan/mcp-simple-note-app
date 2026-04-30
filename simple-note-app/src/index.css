@@ -1,8 +1,161 @@
+:root[data-theme="light"] {
+  --bg: hsl(0, 0%, 90%);
+  --fg: hsl(0, 0%, 95%);
+  --hl: hsl(0, 0%, 100%);
+  --sd: hsla(0, 0%, 70%, 0.6);
+  --text: hsl(0, 0%, 10%);
+  --success-bg: hsl(140, 80%, 90%);
+  --success-stroke: hsl(140, 80%, 80%);
+  --success-text: hsl(140, 80%, 45%);
+  --error-bg: hsl(0, 80%, 90%);
+  --error-stroke: hsl(0, 80%, 80%);
+  --error-text: hsl(0, 80%, 45%);
+}
+
+:root[data-theme="dark"] {
+  --bg: hsl(0, 0%, 10%);
+  --fg: hsl(0, 0%, 15%);
+  --hl: hsl(0, 0%, 12%);
+  --sd: hsla(0, 0%, 8%, 0.6);
+  --text: hsl(0, 0%, 90%);
+  --success-bg: hsl(140, 80%, 10%);
+  --success-stroke: hsl(140, 80%, 20%);
+  --success-text: hsl(140, 80%, 55%);
+  --error-bg: hsl(0, 80%, 10%);
+  --error-stroke: hsl(0, 80%, 20%);
+  --error-text: hsl(0, 80%, 55%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
-    sans-serif;
-  margin: auto;
-  max-width: 38rem;
-  padding: 2rem;
+  height: 100vh;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app {
+  width: 900px;
+  height: 640px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+#toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left,
+.right {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.center {
+  font-weight: 600;
+}
+
+.button {
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  background: var(--hl);
+  border: 1px solid var(--hl);
+  border-radius: 150px;
+  transition: all 0.15s ease;
+  box-shadow: 5px 5px 10px var(--sd), -5px -5px 10px var(--hl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:active {
+  box-shadow: inset 5px 5px 10px var(--sd), inset -5px -5px 10px var(--hl);
+  transform: scale(0.96);
+}
+
+.button i {
+  font-size: 18px;
+  color: var(--text);
+}
+
+main {
+  flex: 1;
+  display: flex;
+}
+
+#editor {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 1rem;
+  background: var(--fg);
+  color: var(--text);
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+#toasts {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 320px;
+  z-index: 9999;
+}
+
+.toast {
+  border-radius: 5px;
+  width: 100%;
+  line-height: 1.25rem;
+  padding: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.toast .title {
+  margin-right: 0.5rem;
+}
+
+.toast-success {
+  background: var(--success-bg);
+  border-left: 5px solid var(--success-stroke);
+  color: var(--success-text);
+}
+
+.toast-success .title::before {
+  content: '\f058';
+  font-family: 'Font Awesome 7 Free';
+  margin-right: 0.5rem;
+}
+
+.toast-error {
+  background: var(--error-bg);
+  border-left: 5px solid var(--error-stroke);
+  color: var(--error-text);
+}
+
+.toast-error .title::before {
+  content: '\f057';
+  font-family: 'Font Awesome 7 Free';
+  margin-right: 0.5rem;
 }
